@@ -331,22 +331,22 @@ export default function AdminPage() {
       <h1 className="text-2xl font-bold mb-4 text-red-500">Admin Panel</h1>
       <Tabs defaultValue="searches">
         <TabsList>
-          <TabsTrigger value="searches">Searches</TabsTrigger>
-          <TabsTrigger value="users">Users</TabsTrigger>
-          <TabsTrigger value="transactions">Transactions</TabsTrigger>
+          <TabsTrigger value="searches">Consultas</TabsTrigger>
+          <TabsTrigger value="users">Usuarios</TabsTrigger>
+          <TabsTrigger value="transactions">Transacciones</TabsTrigger>
         </TabsList>
 
         <TabsContent value="searches">
           <Card>
             <CardHeader className="flex flex-col space-y-4">
               <div className="flex flex-row items-center justify-between">
-                <CardTitle>Pending Searches</CardTitle>
+                <CardTitle>Consultas pendientes</CardTitle>
                 <div className="text-sm text-muted-foreground">
-                  Page {currentSearchPage} of {totalSearchPages || 1}
+                  Página {currentSearchPage} de {totalSearchPages || 1}
                 </div>
               </div>
               <Input
-                placeholder="Search by username, category, or query..."
+                placeholder="Buscar por nombre, categoría o consulta..."
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -376,7 +376,7 @@ export default function AdminPage() {
                         setShowResultDialog(true);
                       }}
                     >
-                      Add Result
+                      Añadir resultado
                     </Button>
                   </div>
                 ))}
@@ -392,7 +392,7 @@ export default function AdminPage() {
                       className="w-[100px]"
                     >
                       <ChevronLeft className="h-4 w-4 mr-1" />
-                      Previous
+                      Anterior
                     </Button>
                     <div className="text-sm text-muted-foreground">
                       {currentSearchPage} / {totalSearchPages}
@@ -408,7 +408,7 @@ export default function AdminPage() {
                       disabled={currentSearchPage === totalSearchPages}
                       className="w-[100px]"
                     >
-                      Next
+                      Siguiente
                       <ChevronRight className="h-4 w-4 ml-1" />
                     </Button>
                   </div>
@@ -420,14 +420,15 @@ export default function AdminPage() {
           <Dialog open={showResultDialog} onOpenChange={setShowResultDialog}>
             <DialogContent className="sm:max-w-[600px] w-[95vw] max-h-[90vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>Add Search Result</DialogTitle>
+                <DialogTitle>Añadir resultado de consulta</DialogTitle>
                 <DialogDescription>
-                  Adding result for search by {selectedSearch?.users?.username}
+                  Añadir resultado de consulta por{" "}
+                  {selectedSearch?.users?.username}
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-6 py-4">
                 <div className="space-y-2">
-                  <Label className="font-medium">Search Query</Label>
+                  <Label className="font-medium">Consulta</Label>
                   <div className="p-2 rounded bg-card">
                     <div className="font-medium">
                       {selectedSearch?.category}
@@ -439,7 +440,7 @@ export default function AdminPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="result">Result Text</Label>
+                  <Label htmlFor="result">Resultado</Label>
                   <Textarea
                     id="result"
                     placeholder="Enter result text..."
@@ -450,7 +451,7 @@ export default function AdminPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="file">Attach File (Optional)</Label>
+                  <Label htmlFor="file">Adjuntar archivo (Opcional)</Label>
                   <Input
                     id="file"
                     type="file"
@@ -460,7 +461,7 @@ export default function AdminPage() {
                   />
                   {selectedFile && (
                     <div className="text-sm text-muted-foreground">
-                      Selected file: {selectedFile.name}
+                      Archivo seleccionado: {selectedFile.name}
                     </div>
                   )}
                 </div>
@@ -475,7 +476,7 @@ export default function AdminPage() {
                       setSelectedFile(null);
                     }}
                   >
-                    Cancel
+                    Cancelar
                   </Button>
                   <Button
                     onClick={handleSubmitResult}
@@ -483,7 +484,7 @@ export default function AdminPage() {
                     className="flex items-center gap-2"
                   >
                     {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-                    {loading ? "Submitting..." : "Submit Result"}
+                    {loading ? "Enviando..." : "Enviar resultado"}
                   </Button>
                 </div>
               </div>
@@ -495,13 +496,13 @@ export default function AdminPage() {
           <Card>
             <CardHeader className="flex flex-col space-y-4">
               <div className="flex flex-row items-center justify-between">
-                <CardTitle>Users</CardTitle>
+                <CardTitle>Usuarios</CardTitle>
                 <div className="text-sm text-muted-foreground">
-                  Page {currentUserPage} of {totalUserPages || 1}
+                  Página {currentUserPage} de {totalUserPages || 1}
                 </div>
               </div>
               <Input
-                placeholder="Search by username or role..."
+                placeholder="Buscar por nombre o rol..."
                 value={userSearchQuery}
                 onChange={(e) => {
                   setUserSearchQuery(e.target.value);
@@ -517,7 +518,7 @@ export default function AdminPage() {
                     <div className="font-medium break-all">{user.username}</div>
                     <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                       <div className="text-muted-foreground text-sm flex items-center flex-wrap gap-2">
-                        Credits:
+                        Créditos:
                         <Input
                           type="number"
                           value={user.credits}
@@ -549,7 +550,7 @@ export default function AdminPage() {
                       className="w-[100px]"
                     >
                       <ChevronLeft className="h-4 w-4 mr-1" />
-                      Previous
+                      Anterior
                     </Button>
                     <div className="text-sm text-muted-foreground">
                       {currentUserPage} / {totalUserPages}
@@ -565,7 +566,7 @@ export default function AdminPage() {
                       disabled={currentUserPage === totalUserPages}
                       className="w-[100px]"
                     >
-                      Next
+                      Siguiente
                       <ChevronRight className="h-4 w-4 ml-1" />
                     </Button>
                   </div>
@@ -579,10 +580,10 @@ export default function AdminPage() {
           <Card>
             <CardHeader className="flex flex-col space-y-4">
               <div className="flex flex-row items-center justify-between w-full">
-                <CardTitle>All Transactions</CardTitle>
+                <CardTitle>Todas las transacciones</CardTitle>
                 <div className="flex items-center gap-4">
                   <div className="text-sm text-muted-foreground">
-                    Page {currentTransactionPage} of{" "}
+                    Página {currentTransactionPage} de{" "}
                     {totalTransactionPages || 1}
                   </div>
                   <Button
@@ -600,7 +601,7 @@ export default function AdminPage() {
                 </div>
               </div>
               <Input
-                placeholder="Search by username, order number, or status..."
+                placeholder="Buscar por nombre, número de pedido o estado..."
                 value={transactionSearchQuery}
                 onChange={(e) => {
                   setTransactionSearchQuery(e.target.value);
@@ -617,24 +618,24 @@ export default function AdminPage() {
                     className="border p-4 rounded-lg bg-card"
                   >
                     <div className="font-medium break-all">
-                      Username:{" "}
+                      Usuario:{" "}
                       <span className="text-red-500 break-words">
                         {transaction.users?.username}
                       </span>
                       <div className="text-sm break-all">
-                        Order #{transaction.order_number}
+                        Número de pedido: {transaction.order_number}
                       </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                       <div>
                         <div className="text-muted-foreground text-sm break-words">
-                          Amount: €{transaction.amount}
+                          Cantidad: €{transaction.amount}
                         </div>
                         <div className="text-muted-foreground text-sm break-words">
-                          Credits: {transaction.credits}
+                          Créditos: {transaction.credits}
                         </div>
                         <div className="text-muted-foreground text-sm flex flex-wrap gap-1">
-                          Status:{" "}
+                          Estado:{" "}
                           <span
                             className={
                               transaction.status === "completed"
@@ -649,7 +650,7 @@ export default function AdminPage() {
                           {transaction.expires_at &&
                             transaction.status === "new" && (
                               <span className="whitespace-nowrap">
-                                (Expires in:{" "}
+                                (Expira en:{" "}
                                 <CountdownTimer
                                   expiryDate={transaction.expires_at}
                                 />
@@ -661,11 +662,11 @@ export default function AdminPage() {
                       {transaction.crypto_amount && (
                         <div>
                           <div className="text-muted-foreground text-sm break-words">
-                            Crypto Amount: {transaction.crypto_amount}{" "}
+                            Cantidad en cripto: {transaction.crypto_amount}{" "}
                             {transaction.crypto_currency}
                           </div>
                           <div className="text-muted-foreground text-sm break-words">
-                            Exchange Rate: {transaction.exchange_rate}
+                            Tasa de cambio: {transaction.exchange_rate}
                           </div>
                         </div>
                       )}
@@ -678,12 +679,12 @@ export default function AdminPage() {
                           rel="noopener noreferrer"
                           className="text-blue-500 hover:text-blue-700 text-sm break-all"
                         >
-                          View Invoice
+                          Ver factura
                         </a>
                       </div>
                     )}
                     <div className="text-muted-foreground text-xs mt-2 break-words">
-                      Created:{" "}
+                      Creado:{" "}
                       {new Date(transaction.created_at).toLocaleString()}
                     </div>
                   </div>
@@ -702,7 +703,7 @@ export default function AdminPage() {
                       className="w-[100px]"
                     >
                       <ChevronLeft className="h-4 w-4 mr-1" />
-                      Previous
+                      Anterior
                     </Button>
                     <div className="text-sm text-muted-foreground">
                       {currentTransactionPage} / {totalTransactionPages}
@@ -720,7 +721,7 @@ export default function AdminPage() {
                       }
                       className="w-[100px]"
                     >
-                      Next
+                      Siguiente
                       <ChevronRight className="h-4 w-4 ml-1" />
                     </Button>
                   </div>
