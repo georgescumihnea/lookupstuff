@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { supabase } from "@/lib/supabase";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
+
+const ITEMS_PER_PAGE = 5;
 
 interface User {
   id: string;
@@ -103,6 +105,9 @@ export default function AdminPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [userSearchQuery, setUserSearchQuery] = useState("");
   const [transactionSearchQuery, setTransactionSearchQuery] = useState("");
+  const [currentSearchPage, setCurrentSearchPage] = useState(1);
+  const [currentUserPage, setCurrentUserPage] = useState(1);
+  const [currentTransactionPage, setCurrentTransactionPage] = useState(1);
 
   const filteredSearches = searches.filter((search) => {
     const searchText =
@@ -120,6 +125,37 @@ export default function AdminPage() {
       `${transaction.users?.username} ${transaction.order_number} ${transaction.status}`.toLowerCase();
     return searchText.includes(transactionSearchQuery.toLowerCase());
   });
+
+  // Calculate total pages for each section
+  const totalSearchPages = Math.ceil(
+    filteredSearches.filter((s) => s.status === "pending").length /
+      ITEMS_PER_PAGE
+  );
+  const totalUserPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
+  const totalTransactionPages = Math.ceil(
+    filteredTransactions.length / ITEMS_PER_PAGE
+  );
+
+  // Get current page items for each section
+  const getCurrentSearchItems = () => {
+    const startIndex = (currentSearchPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return filteredSearches
+      .filter((s) => s.status === "pending")
+      .slice(startIndex, endIndex);
+  };
+
+  const getCurrentUserItems = () => {
+    const startIndex = (currentUserPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return filteredUsers.slice(startIndex, endIndex);
+  };
+
+  const getCurrentTransactionItems = () => {
+    const startIndex = (currentTransactionPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return filteredTransactions.slice(startIndex, endIndex);
+  };
 
   useEffect(() => {
     fetchData();
@@ -302,50 +338,87 @@ export default function AdminPage() {
 
         <TabsContent value="searches">
           <Card>
-            <CardHeader>
-              <CardTitle>Pending Searches</CardTitle>
-              <div className="mt-2">
-                <Input
-                  placeholder="Search by username, category, or query..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="max-w-sm"
-                />
+            <CardHeader className="flex flex-col space-y-4">
+              <div className="flex flex-row items-center justify-between">
+                <CardTitle>Pending Searches</CardTitle>
+                <div className="text-sm text-muted-foreground">
+                  Page {currentSearchPage} of {totalSearchPages || 1}
+                </div>
               </div>
+              <Input
+                placeholder="Search by username, category, or query..."
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentSearchPage(1); // Reset to first page when searching
+                }}
+                className="max-w-sm"
+              />
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {filteredSearches
-                  .filter((s) => s.status === "pending")
-                  .map((search) => (
-                    <div
-                      key={search.id}
-                      className="border p-4 rounded-lg bg-card"
-                    >
-                      <div className="font-medium">
-                        {search.users?.username} - {search.category}
-                      </div>
-                      <div className="text-muted-foreground text-sm">
-                        {search.query}
-                      </div>
-                      <Button
-                        variant="outline"
-                        className="mt-2"
-                        onClick={() => {
-                          setSelectedSearch(search);
-                          setShowResultDialog(true);
-                        }}
-                      >
-                        Add Result
-                      </Button>
+                {getCurrentSearchItems().map((search) => (
+                  <div
+                    key={search.id}
+                    className="border p-4 rounded-lg bg-card break-words"
+                  >
+                    <div className="font-medium break-all">
+                      {search.users?.username} - {search.category}
                     </div>
-                  ))}
+                    <div className="text-muted-foreground text-sm break-words">
+                      {search.query}
+                    </div>
+                    <Button
+                      variant="outline"
+                      className="mt-2"
+                      onClick={() => {
+                        setSelectedSearch(search);
+                        setShowResultDialog(true);
+                      }}
+                    >
+                      Add Result
+                    </Button>
+                  </div>
+                ))}
+                {totalSearchPages > 1 && (
+                  <div className="flex justify-center items-center gap-4 pt-4">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        setCurrentSearchPage((prev) => Math.max(1, prev - 1))
+                      }
+                      disabled={currentSearchPage === 1}
+                      className="w-[100px]"
+                    >
+                      <ChevronLeft className="h-4 w-4 mr-1" />
+                      Previous
+                    </Button>
+                    <div className="text-sm text-muted-foreground">
+                      {currentSearchPage} / {totalSearchPages}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        setCurrentSearchPage((prev) =>
+                          Math.min(totalSearchPages, prev + 1)
+                        )
+                      }
+                      disabled={currentSearchPage === totalSearchPages}
+                      className="w-[100px]"
+                    >
+                      Next
+                      <ChevronRight className="h-4 w-4 ml-1" />
+                    </Button>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
 
           <Dialog open={showResultDialog} onOpenChange={setShowResultDialog}>
-            <DialogContent className="sm:max-w-[600px]">
+            <DialogContent className="sm:max-w-[600px] w-[95vw] max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Add Search Result</DialogTitle>
                 <DialogDescription>
@@ -420,29 +493,35 @@ export default function AdminPage() {
 
         <TabsContent value="users">
           <Card>
-            <CardHeader>
-              <CardTitle>Users</CardTitle>
-              <div className="mt-2">
-                <Input
-                  placeholder="Search by username or role..."
-                  value={userSearchQuery}
-                  onChange={(e) => setUserSearchQuery(e.target.value)}
-                  className="max-w-sm"
-                />
+            <CardHeader className="flex flex-col space-y-4">
+              <div className="flex flex-row items-center justify-between">
+                <CardTitle>Users</CardTitle>
+                <div className="text-sm text-muted-foreground">
+                  Page {currentUserPage} of {totalUserPages || 1}
+                </div>
               </div>
+              <Input
+                placeholder="Search by username or role..."
+                value={userSearchQuery}
+                onChange={(e) => {
+                  setUserSearchQuery(e.target.value);
+                  setCurrentUserPage(1); // Reset to first page when searching
+                }}
+                className="max-w-sm"
+              />
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {filteredUsers.map((user) => (
+                {getCurrentUserItems().map((user) => (
                   <div key={user.id} className="border p-4 rounded-lg bg-card">
-                    <div className="font-medium">{user.username}</div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-muted-foreground text-sm">
+                    <div className="font-medium break-all">{user.username}</div>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                      <div className="text-muted-foreground text-sm flex items-center flex-wrap gap-2">
                         Credits:
                         <Input
                           type="number"
                           value={user.credits}
-                          className="w-24 ml-2 inline-block"
+                          className="w-24 inline-block"
                           onChange={(e) => {
                             const newCredits = parseInt(e.target.value);
                             if (!isNaN(newCredits)) {
@@ -458,6 +537,39 @@ export default function AdminPage() {
                     </div>
                   </div>
                 ))}
+                {totalUserPages > 1 && (
+                  <div className="flex justify-center items-center gap-4 pt-4">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        setCurrentUserPage((prev) => Math.max(1, prev - 1))
+                      }
+                      disabled={currentUserPage === 1}
+                      className="w-[100px]"
+                    >
+                      <ChevronLeft className="h-4 w-4 mr-1" />
+                      Previous
+                    </Button>
+                    <div className="text-sm text-muted-foreground">
+                      {currentUserPage} / {totalUserPages}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        setCurrentUserPage((prev) =>
+                          Math.min(totalUserPages, prev + 1)
+                        )
+                      }
+                      disabled={currentUserPage === totalUserPages}
+                      className="w-[100px]"
+                    >
+                      Next
+                      <ChevronRight className="h-4 w-4 ml-1" />
+                    </Button>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -465,10 +577,14 @@ export default function AdminPage() {
 
         <TabsContent value="transactions">
           <Card>
-            <CardHeader>
-              <div className="flex justify-between items-center">
+            <CardHeader className="flex flex-col space-y-4">
+              <div className="flex flex-row items-center justify-between w-full">
                 <CardTitle>All Transactions</CardTitle>
-                <div className="flex gap-2">
+                <div className="flex items-center gap-4">
+                  <div className="text-sm text-muted-foreground">
+                    Page {currentTransactionPage} of{" "}
+                    {totalTransactionPages || 1}
+                  </div>
                   <Button
                     onClick={checkAllTransactions}
                     disabled={isCheckingTransactions}
@@ -483,38 +599,41 @@ export default function AdminPage() {
                   </Button>
                 </div>
               </div>
-              <div className="mt-2">
-                <Input
-                  placeholder="Search by username, order number, or status..."
-                  value={transactionSearchQuery}
-                  onChange={(e) => setTransactionSearchQuery(e.target.value)}
-                  className="max-w-sm"
-                />
-              </div>
+              <Input
+                placeholder="Search by username, order number, or status..."
+                value={transactionSearchQuery}
+                onChange={(e) => {
+                  setTransactionSearchQuery(e.target.value);
+                  setCurrentTransactionPage(1); // Reset to first page when searching
+                }}
+                className="max-w-sm"
+              />
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {filteredTransactions.map((transaction) => (
+                {getCurrentTransactionItems().map((transaction) => (
                   <div
                     key={transaction.id}
                     className="border p-4 rounded-lg bg-card"
                   >
-                    <div className="font-medium">
+                    <div className="font-medium break-all">
                       Username:{" "}
-                      <span className="text-red-500">
+                      <span className="text-red-500 break-words">
                         {transaction.users?.username}
                       </span>
-                      - Order #{transaction.order_number}
+                      <div className="text-sm break-all">
+                        Order #{transaction.order_number}
+                      </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-2 mt-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                       <div>
-                        <div className="text-muted-foreground text-sm">
+                        <div className="text-muted-foreground text-sm break-words">
                           Amount: €{transaction.amount}
                         </div>
-                        <div className="text-muted-foreground text-sm">
+                        <div className="text-muted-foreground text-sm break-words">
                           Credits: {transaction.credits}
                         </div>
-                        <div className="text-muted-foreground text-sm">
+                        <div className="text-muted-foreground text-sm flex flex-wrap gap-1">
                           Status:{" "}
                           <span
                             className={
@@ -529,7 +648,7 @@ export default function AdminPage() {
                           </span>
                           {transaction.expires_at &&
                             transaction.status === "new" && (
-                              <span className="ml-2">
+                              <span className="whitespace-nowrap">
                                 (Expires in:{" "}
                                 <CountdownTimer
                                   expiryDate={transaction.expires_at}
@@ -541,11 +660,11 @@ export default function AdminPage() {
                       </div>
                       {transaction.crypto_amount && (
                         <div>
-                          <div className="text-muted-foreground text-sm">
+                          <div className="text-muted-foreground text-sm break-words">
                             Crypto Amount: {transaction.crypto_amount}{" "}
                             {transaction.crypto_currency}
                           </div>
-                          <div className="text-muted-foreground text-sm">
+                          <div className="text-muted-foreground text-sm break-words">
                             Exchange Rate: {transaction.exchange_rate}
                           </div>
                         </div>
@@ -557,18 +676,55 @@ export default function AdminPage() {
                           href={transaction.invoice_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-500 hover:text-blue-700 text-sm"
+                          className="text-blue-500 hover:text-blue-700 text-sm break-all"
                         >
                           View Invoice
                         </a>
                       </div>
                     )}
-                    <div className="text-muted-foreground text-xs mt-2">
+                    <div className="text-muted-foreground text-xs mt-2 break-words">
                       Created:{" "}
                       {new Date(transaction.created_at).toLocaleString()}
                     </div>
                   </div>
                 ))}
+                {totalTransactionPages > 1 && (
+                  <div className="flex justify-center items-center gap-4 pt-4">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        setCurrentTransactionPage((prev) =>
+                          Math.max(1, prev - 1)
+                        )
+                      }
+                      disabled={currentTransactionPage === 1}
+                      className="w-[100px]"
+                    >
+                      <ChevronLeft className="h-4 w-4 mr-1" />
+                      Previous
+                    </Button>
+                    <div className="text-sm text-muted-foreground">
+                      {currentTransactionPage} / {totalTransactionPages}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        setCurrentTransactionPage((prev) =>
+                          Math.min(totalTransactionPages, prev + 1)
+                        )
+                      }
+                      disabled={
+                        currentTransactionPage === totalTransactionPages
+                      }
+                      className="w-[100px]"
+                    >
+                      Next
+                      <ChevronRight className="h-4 w-4 ml-1" />
+                    </Button>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

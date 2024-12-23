@@ -207,18 +207,18 @@ export default function UserTransactionsPage() {
                     key={transaction.id}
                     className="border p-4 rounded-lg bg-card"
                   >
-                    <div className="font-medium">
+                    <div className="font-medium break-all">
                       Order #{transaction.order_number}
                     </div>
-                    <div className="grid grid-cols-2 gap-2 mt-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                       <div>
-                        <div className="text-muted-foreground text-sm">
+                        <div className="text-muted-foreground text-sm break-words">
                           Amount: €{parseFloat(transaction.amount).toFixed(2)}
                         </div>
-                        <div className="text-muted-foreground text-sm">
+                        <div className="text-muted-foreground text-sm break-words">
                           Credits: {transaction.credits}
                         </div>
-                        <div className="text-muted-foreground text-sm">
+                        <div className="text-muted-foreground text-sm flex flex-wrap gap-1">
                           Status:{" "}
                           <span
                             className={
@@ -233,7 +233,7 @@ export default function UserTransactionsPage() {
                           </span>
                           {transaction.expires_at &&
                             transaction.status === "new" && (
-                              <span className="ml-2">
+                              <span className="whitespace-nowrap">
                                 (Expires in:{" "}
                                 <CountdownTimer
                                   expiryDate={transaction.expires_at}
@@ -245,15 +245,15 @@ export default function UserTransactionsPage() {
                       </div>
                       {transaction.crypto_amount && (
                         <div>
-                          <div className="text-muted-foreground text-sm">
+                          <div className="text-muted-foreground text-sm break-words">
                             Crypto Amount: {transaction.crypto_amount}{" "}
                             {transaction.crypto_currency}
                           </div>
-                          <div className="text-muted-foreground text-sm">
+                          <div className="text-muted-foreground text-sm break-words">
                             Exchange Rate: {transaction.exchange_rate}
                           </div>
                           {transaction.wallet_hash && (
-                            <div className="text-muted-foreground text-sm">
+                            <div className="text-muted-foreground text-sm break-all">
                               Wallet Address: {transaction.wallet_hash}
                             </div>
                           )}
@@ -266,7 +266,7 @@ export default function UserTransactionsPage() {
                           variant="outline"
                           onClick={() => handleCompletePayment(transaction)}
                           disabled={loadingPayment}
-                          className="text-sm"
+                          className="text-sm w-full sm:w-auto"
                         >
                           {loadingPayment ? (
                             <>
@@ -279,7 +279,7 @@ export default function UserTransactionsPage() {
                         </Button>
                       </div>
                     )}
-                    <div className="text-muted-foreground text-xs mt-2">
+                    <div className="text-muted-foreground text-xs mt-2 break-words">
                       Created:{" "}
                       {new Date(transaction.created_at).toLocaleString()}
                     </div>
