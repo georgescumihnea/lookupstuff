@@ -170,6 +170,7 @@ export default function DashboardPage() {
             <Input
               placeholder="Enter your search query"
               value={query}
+              maxLength={100}
               onChange={(e) => setQuery(e.target.value)}
               className="hover:bg-[#252525]"
             />
