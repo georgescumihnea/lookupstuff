@@ -90,7 +90,7 @@ export default function RegisterPage() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
-                className="bg-muted"
+                className=""
               />
             </div>
             <div className="space-y-2">
@@ -101,7 +101,7 @@ export default function RegisterPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="bg-muted"
+                className=""
               />
             </div>
             {error && <div className="text-red-500 text-sm">{error}</div>}

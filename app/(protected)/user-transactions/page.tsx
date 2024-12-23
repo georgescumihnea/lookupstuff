@@ -243,22 +243,25 @@ export default function UserTransactionsPage() {
                             )}
                         </div>
                       </div>
-                      {transaction.crypto_amount && (
-                        <div>
-                          <div className="text-muted-foreground text-sm break-words">
-                            Crypto Amount: {transaction.crypto_amount}{" "}
-                            {transaction.crypto_currency}
-                          </div>
-                          <div className="text-muted-foreground text-sm break-words">
-                            Exchange Rate: {transaction.exchange_rate}
-                          </div>
-                          {transaction.wallet_hash && (
-                            <div className="text-muted-foreground text-sm break-all">
-                              Wallet Address: {transaction.wallet_hash}
+                      {transaction.crypto_amount &&
+                        transaction.crypto_currency && (
+                          <div>
+                            <div className="text-muted-foreground text-sm break-words">
+                              Crypto Amount: {transaction.crypto_amount}{" "}
+                              {transaction.crypto_currency}
                             </div>
-                          )}
-                        </div>
-                      )}
+                            {transaction.exchange_rate && (
+                              <div className="text-muted-foreground text-sm break-words">
+                                Exchange Rate: {transaction.exchange_rate}
+                              </div>
+                            )}
+                            {transaction.wallet_hash && (
+                              <div className="text-muted-foreground text-sm break-all">
+                                Wallet Address: {transaction.wallet_hash}
+                              </div>
+                            )}
+                          </div>
+                        )}
                     </div>
                     {transaction.status === "new" && (
                       <div className="mt-2">

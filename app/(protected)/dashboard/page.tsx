@@ -197,12 +197,12 @@ export default function DashboardPage() {
               <Input
                 placeholder="Enter your search query"
                 value={query}
-                maxLength={100}
+                maxLength={60}
                 onChange={(e) => setQuery(e.target.value)}
                 className="hover:bg-[#252525] w-full"
               />
               <div className="text-xs text-muted-foreground text-right">
-                {query.length}/100 characters
+                {query.length}/60 characters
               </div>
             </div>
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
