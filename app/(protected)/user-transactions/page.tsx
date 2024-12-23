@@ -234,7 +234,7 @@ export default function UserTransactionsPage() {
                           {transaction.expires_at &&
                             transaction.status === "new" && (
                               <span className="whitespace-nowrap">
-                                (Expires in:{" "}
+                                (Expira en:{" "}
                                 <CountdownTimer
                                   expiryDate={transaction.expires_at}
                                 />
