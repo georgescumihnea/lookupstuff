@@ -8,10 +8,10 @@ export default function BuyCreditsPage() {
     <div className="container mx-auto py-8">
       <Card>
         <CardHeader>
-          <CardTitle>Buy Credits</CardTitle>
+          <CardTitle>Comprar Créditos</CardTitle>
           <p className="text-sm text-muted-foreground">
-            Purchase credits to use for lookups. Select an amount and complete
-            the payment.
+            Compra créditos para usar para búsquedas. Selecciona una cantidad y
+            completa el pago.
           </p>
         </CardHeader>
         <CardContent>

@@ -12,10 +12,10 @@ import { useToast } from "@/hooks/use-toast";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const categories = [
-  { id: "category1", name: "Category 1" },
-  { id: "category2", name: "Category 2" },
-  { id: "category3", name: "Category 3" },
-  { id: "category4", name: "Category 4" },
+  { id: "category-nombre", name: "Nombre" },
+  { id: "category-nif", name: "NIF" },
+  { id: "category-matricula", name: "Matrícula" },
+  { id: "category-direccion", name: "Dirección" },
 ];
 
 const ITEMS_PER_PAGE = 5;
@@ -108,8 +108,9 @@ export default function DashboardPage() {
     if (credits < 1) {
       toast({
         variant: "destructive",
-        title: "Insufficient Credits",
-        description: "Please purchase more credits to continue searching.",
+        title: "Créditos insuficientes",
+        description:
+          "Por favor, compra más créditos para continuar con la búsqueda.",
       });
       return;
     }
@@ -130,7 +131,7 @@ export default function DashboardPage() {
 
       await supabase.rpc("deduct_credits", {
         user_id: session.user.id,
-        amount: 1,
+        amount: 20,
       });
 
       await loadData();
@@ -138,8 +139,8 @@ export default function DashboardPage() {
       setCurrentPage(1); // Reset to first page after new search
 
       toast({
-        title: "Search Submitted",
-        description: "Your search request has been submitted successfully.",
+        title: "Solicitud de búsqueda enviada",
+        description: "Tu solicitud de búsqueda ha sido enviada correctamente.",
       });
     } catch (error: any) {
       toast({
@@ -173,7 +174,7 @@ export default function DashboardPage() {
     <div className="space-y-8 px-4 md:px-8 max-w-7xl mx-auto">
       <Card className="bg-card">
         <CardHeader>
-          <CardTitle>Search</CardTitle>
+          <CardTitle>Búsqueda</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSearch} className="space-y-6">
@@ -195,24 +196,24 @@ export default function DashboardPage() {
             </div>
             <div className="space-y-2">
               <Input
-                placeholder="Enter your search query"
+                placeholder="Introduce tu consulta"
                 value={query}
                 maxLength={60}
                 onChange={(e) => setQuery(e.target.value)}
                 className="hover:bg-[#252525] w-full"
               />
               <div className="text-xs text-muted-foreground text-right">
-                {query.length}/60 characters
+                {query.length}/60 caracteres
               </div>
             </div>
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-              <div className="text-lg font-medium">Credits: {credits}</div>
+              <div className="text-lg font-medium">Créditos: {credits} €</div>
               <Button
                 type="submit"
                 disabled={loading || !category || !query}
                 className="w-full sm:w-auto min-w-[200px]"
               >
-                Search (1 Credit)
+                Búsqueda (20€)
               </Button>
             </div>
           </form>
@@ -221,16 +222,16 @@ export default function DashboardPage() {
 
       <Card className="bg-card">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Past Searches</CardTitle>
+          <CardTitle>Pedidos</CardTitle>
           <div className="text-sm text-muted-foreground">
-            Page {currentPage} of {totalPages}
+            Página {currentPage} de {totalPages}
           </div>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {searches.length === 0 ? (
               <div className="text-center text-muted-foreground py-8">
-                No searches found
+                No hay pedidos encontrados
               </div>
             ) : (
               <>
@@ -260,12 +261,12 @@ export default function DashboardPage() {
                               }
                               className="w-full sm:w-auto"
                             >
-                              Download Result
+                              Descargar Resultado
                             </Button>
                           )}
                         </div>
                       ) : (
-                        <div className="text-yellow-400 text-sm">Pending</div>
+                        <div className="text-yellow-400 text-sm">Pendiente</div>
                       )}
                     </div>
                   </div>
@@ -280,7 +281,7 @@ export default function DashboardPage() {
                       className="w-[100px]"
                     >
                       <ChevronLeft className="h-4 w-4 mr-1" />
-                      Previous
+                      Anterior
                     </Button>
                     <div className="text-sm text-muted-foreground">
                       {currentPage} / {totalPages}
@@ -292,7 +293,7 @@ export default function DashboardPage() {
                       disabled={currentPage === totalPages}
                       className="w-[100px]"
                     >
-                      Next
+                      Siguiente
                       <ChevronRight className="h-4 w-4 ml-1" />
                     </Button>
                   </div>

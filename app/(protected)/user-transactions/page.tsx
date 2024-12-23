@@ -179,11 +179,11 @@ export default function UserTransactionsPage() {
       <Card>
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle>Your Transactions</CardTitle>
+            <CardTitle>Transacciones</CardTitle>
           </div>
           <div className="mt-2">
             <Input
-              placeholder="Search by order number or status..."
+              placeholder="Buscar por número de pedido o estado..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="max-w-sm"
@@ -199,7 +199,7 @@ export default function UserTransactionsPage() {
             <div className="space-y-4">
               {filteredTransactions.length === 0 ? (
                 <div className="text-center text-muted-foreground py-8">
-                  No transactions found
+                  No hay transacciones encontradas
                 </div>
               ) : (
                 filteredTransactions.map((transaction) => (
@@ -213,13 +213,13 @@ export default function UserTransactionsPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                       <div>
                         <div className="text-muted-foreground text-sm break-words">
-                          Amount: €{parseFloat(transaction.amount).toFixed(2)}
+                          Cantidad: €{parseFloat(transaction.amount).toFixed(2)}
                         </div>
                         <div className="text-muted-foreground text-sm break-words">
-                          Credits: {transaction.credits}
+                          Créditos: {transaction.credits}
                         </div>
                         <div className="text-muted-foreground text-sm flex flex-wrap gap-1">
-                          Status:{" "}
+                          Estado:{" "}
                           <span
                             className={
                               transaction.status === "completed"
@@ -247,12 +247,12 @@ export default function UserTransactionsPage() {
                         transaction.crypto_currency && (
                           <div>
                             <div className="text-muted-foreground text-sm break-words">
-                              Crypto Amount: {transaction.crypto_amount}{" "}
+                              Cantidad en cripto: {transaction.crypto_amount}{" "}
                               {transaction.crypto_currency}
                             </div>
                             {transaction.exchange_rate && (
                               <div className="text-muted-foreground text-sm break-words">
-                                Exchange Rate: {transaction.exchange_rate}
+                                Tasa de cambio: {transaction.exchange_rate}
                               </div>
                             )}
                             {transaction.wallet_hash && (
@@ -274,16 +274,16 @@ export default function UserTransactionsPage() {
                           {loadingPayment ? (
                             <>
                               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                              Loading Payment...
+                              Cargando pago...
                             </>
                           ) : (
-                            "Complete Payment"
+                            "Completar pago"
                           )}
                         </Button>
                       </div>
                     )}
                     <div className="text-muted-foreground text-xs mt-2 break-words">
-                      Created:{" "}
+                      Creado:{" "}
                       {new Date(transaction.created_at).toLocaleString()}
                     </div>
                   </div>

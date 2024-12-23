@@ -13,9 +13,9 @@ import { ReactNode } from "react";
 import { PaymentDialog } from "@/components/payment-dialog";
 
 const CREDIT_PACKAGES = [
-  { id: "1", credits: 100, price: 10 },
-  { id: "2", credits: 250, price: 20 },
-  { id: "3", credits: 500, price: 35 },
+  { id: "1", credits: 20, price: 20 },
+  { id: "2", credits: 100, price: 180 },
+  { id: "3", credits: 200, price: 320 },
 ];
 
 interface Currency {
@@ -85,8 +85,8 @@ const SUPPORTED_CURRENCIES: Currency[] = [
     ),
   },
   {
-    id: "DASH",
-    name: "Dash",
+    id: "ETH",
+    name: "Ethereum",
     icon: (
       <svg
         viewBox="0 0 32 32"
@@ -94,12 +94,18 @@ const SUPPORTED_CURRENCIES: Currency[] = [
         className="w-8 h-8"
       >
         <g fill="none" fillRule="evenodd">
-          <circle cx="16" cy="16" r="16" fill="#008CE7" />
-          <path
-            fill="#FFF"
-            fillRule="nonzero"
-            d="M19.086 8.004H11.81l-.602 3.367 6.562.01c3.231 0 4.19 1.173 4.159 3.12-.014.998-.449 2.686-.633 3.23-.497 1.46-1.521 3.122-5.359 3.117l-6.378-.004-.602 3.371h7.257c2.559 0 3.649-.299 4.8-.83 2.554-1.178 4.075-3.701 4.686-6.994.906-4.9-.224-8.387-6.615-8.387zm-3.28 7.794c.238-.985.31-1.385.31-1.385h-3.584l-1.165 3.32h3.58s.466-1.177.86-1.935z"
-          />
+          <circle cx="16" cy="16" r="16" fill="#627EEA" />
+          <g fill="#FFF" fillRule="nonzero">
+            <path fillOpacity=".602" d="M16.498 4v8.87l7.497 3.35z" />
+            <path d="M16.498 4L9 16.22l7.498-3.35z" />
+            <path fillOpacity=".602" d="M16.498 21.968v6.027L24 17.616z" />
+            <path d="M16.498 27.995v-6.028L9 17.616z" />
+            <path
+              fillOpacity=".2"
+              d="M16.498 20.573l7.497-4.353-7.497-3.348z"
+            />
+            <path fillOpacity=".602" d="M9 16.22l7.498 4.353v-7.701z" />
+          </g>
         </g>
       </svg>
     ),
@@ -210,7 +216,7 @@ export default function BuyCredits() {
     <>
       <Card className="bg-card">
         <CardHeader>
-          <CardTitle>Buy Credits</CardTitle>
+          <CardTitle>Créditos</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
@@ -231,7 +237,7 @@ export default function BuyCredits() {
                     htmlFor={`package-${pkg.id}`}
                     className="flex flex-1 justify-between"
                   >
-                    <span>{pkg.credits} Credits</span>
+                    <span>{pkg.credits} Créditos</span>
                     <span>{pkg.price} €</span>
                   </Label>
                 </div>
@@ -239,7 +245,7 @@ export default function BuyCredits() {
             </RadioGroup>
 
             <div className="space-y-2">
-              <Label>Select Payment Currency</Label>
+              <Label>Selecciona la moneda de pago</Label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {SUPPORTED_CURRENCIES.map((currency) => (
                   <button
@@ -266,10 +272,10 @@ export default function BuyCredits() {
               className="w-full"
             >
               {!session
-                ? "Please Login"
+                ? "Por favor, inicia sesión"
                 : loading
-                  ? "Processing..."
-                  : `Buy ${selectedPackage.credits} Credits with ${selectedCurrency.name}`}
+                  ? "Procesando..."
+                  : `Comprar ${selectedPackage.credits} Créditos con ${selectedCurrency.name}`}
             </Button>
           </div>
         </CardContent>

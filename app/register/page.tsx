@@ -79,7 +79,7 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center px-4">
       <Card className="w-full max-w-[400px] bg-card">
         <CardHeader>
-          <CardTitle>Register</CardTitle>
+          <CardTitle>Registrarse</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleRegister} className="space-y-4">
@@ -106,12 +106,12 @@ export default function RegisterPage() {
             </div>
             {error && <div className="text-red-500 text-sm">{error}</div>}
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Loading..." : "Register"}
+              {loading ? "Cargando..." : "Registrarse"}
             </Button>
             <div className="text-center text-sm">
-              Already have an account?{" "}
+              Ya tienes una cuenta?{" "}
               <Link href="/login" className="text-primary hover:underline">
-                Login
+                Iniciar Sesión
               </Link>
             </div>
           </form>

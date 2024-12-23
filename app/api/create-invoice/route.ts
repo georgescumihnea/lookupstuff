@@ -55,8 +55,28 @@ export async function POST(request: Request) {
     }
 
     // Validate currency
-    const SUPPORTED_CURRENCIES = ["BTC", "LTC", "XMR", "DASH"];
-    if (!SUPPORTED_CURRENCIES.includes(currency)) {
+    const SUPPORTED_CURRENCIES = [
+      "ETH",
+      "BTC",
+      "LTC",
+      "DASH",
+      "ZEC",
+      "DOGE",
+      "BCH",
+      "XMR",
+      "USDT",
+      "USDC",
+      "SHIB",
+      "BTT_TRX",
+      "USDT_TRX",
+      "TRX",
+      "BNB",
+      "BUSD",
+      "USDT_BSC",
+      "ETC",
+      "TON",
+    ];
+    if (!SUPPORTED_CURRENCIES.includes(currency.toUpperCase())) {
       return NextResponse.json(
         {
           error: `Unsupported cryptocurrency. Please choose from: ${SUPPORTED_CURRENCIES.join(
@@ -79,7 +99,7 @@ export async function POST(request: Request) {
         order_name: `Credits Purchase - ${credits} credits`,
         source_currency: "EUR",
         source_amount: amount.toString(),
-        currency: currency,
+        currency: currency.toUpperCase(),
         email: userData.username,
         callback_url: `${baseUrl}/api/payment-callback?json=true`,
       });

@@ -13,8 +13,8 @@ export default function Navbar() {
 
   const navigation = session
     ? [
-        { name: "Buy Credits", href: "/buy-credits", icon: CreditCard },
-        { name: "Transactions", href: "/user-transactions", icon: History },
+        { name: "Añadir Fondos", href: "/buy-credits", icon: CreditCard },
+        { name: "Transacciones", href: "/user-transactions", icon: History },
       ]
     : [];
 
@@ -25,7 +25,7 @@ export default function Navbar() {
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
               <Link href="/" className="text-xl font-bold">
-                Lookup Engine
+                Consultas
               </Link>
             </div>
 
@@ -57,7 +57,7 @@ export default function Navbar() {
             {session ? (
               <div className="flex items-center gap-4">
                 <span className="text-sm hidden sm:block">
-                  Welcome, {session.user?.username || "User"}
+                  Bienvenido, {session.user?.username || "Usuario"}
                 </span>
                 <Button
                   variant="outline"
@@ -65,7 +65,7 @@ export default function Navbar() {
                   className="hidden sm:flex gap-2"
                 >
                   <LogOut className="h-4 w-4" />
-                  Sign Out
+                  Cerrar Sesión
                 </Button>
 
                 {/* Mobile menu button */}
@@ -87,13 +87,13 @@ export default function Navbar() {
                 <Button asChild variant="outline" className="gap-2">
                   <Link href="/login">
                     <User className="h-4 w-4" />
-                    Login
+                    Iniciar Sesión
                   </Link>
                 </Button>
                 <Button asChild className="gap-2">
                   <Link href="/register">
                     <User className="h-4 w-4" />
-                    Register
+                    Registro
                   </Link>
                 </Button>
               </div>
@@ -127,7 +127,7 @@ export default function Navbar() {
             className="w-full justify-start gap-2 text-red-500 hover:text-red-600"
           >
             <LogOut className="h-4 w-4" />
-            Sign Out
+            Cerrar Sesión
           </Button>
         </div>
       </div>

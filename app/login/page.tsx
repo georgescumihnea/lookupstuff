@@ -51,14 +51,14 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center">
       <Card className="w-[400px]">
         <CardHeader>
-          <CardTitle>Login</CardTitle>
+          <CardTitle>Iniciar Sesión</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
               <Input
                 type="text"
-                placeholder="Username"
+                placeholder="Nombre de usuario"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -67,7 +67,7 @@ export default function LoginPage() {
             <div className="space-y-2">
               <Input
                 type="password"
-                placeholder="Password"
+                placeholder="Contraseña"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -75,12 +75,12 @@ export default function LoginPage() {
             </div>
             {error && <div className="text-red-500 text-sm">{error}</div>}
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Loading..." : "Login"}
+              {loading ? "Cargando..." : "Iniciar Sesión"}
             </Button>
             <div className="text-center text-sm">
-              Don't have an account?{" "}
+              No tienes una cuenta?{" "}
               <Link href="/register" className="text-primary hover:underline">
-                Register
+                Registrarse
               </Link>
             </div>
           </form>
