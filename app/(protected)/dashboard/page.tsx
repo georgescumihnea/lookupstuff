@@ -12,10 +12,10 @@ import { useToast } from "@/hooks/use-toast";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const categories = [
-  { id: "category-nombre", name: "Nombre" },
-  { id: "category-nif", name: "NIF" },
-  { id: "category-matricula", name: "Matrícula" },
-  { id: "category-direccion", name: "Dirección" },
+  { id: "Nombre", name: "Nombre" },
+  { id: "NIF", name: "NIF" },
+  { id: "Matrícula", name: "Matrícula" },
+  { id: "Dirección", name: "Dirección" },
 ];
 
 const ITEMS_PER_PAGE = 5;

@@ -208,7 +208,7 @@ export default function UserTransactionsPage() {
                     className="border p-4 rounded-lg bg-card"
                   >
                     <div className="font-medium break-all">
-                      Order #{transaction.order_number}
+                      Pedido #{transaction.order_number}
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                       <div>

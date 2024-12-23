@@ -88,7 +88,7 @@ export async function POST(request: Request) {
     }
 
     // Create unique order number
-    const orderNumber = `ORDER-${Date.now()}-${userId.slice(0, 8)}`;
+    const orderNumber = `PEDIDO-${Date.now()}-${userId.slice(0, 8)}`;
 
     try {
       // Prepare Plisio API request URL with only required parameters
