@@ -184,7 +184,7 @@ export default function DashboardPage() {
                   type="button"
                   onClick={() => setCategory(cat.id)}
                   className={cn(
-                    "h-16 sm:h-20 rounded-lg border-2 border-border p-2 sm:p-4 text-center transition-all hover:border-primary break-words",
+                    "h-16 sm:h-20 rounded-lg border-2 p-2 sm:p-4 text-center transition-all hover:border-primary break-words",
                     category === cat.id &&
                       "border-primary bg-primary/10 text-primary"
                   )}
@@ -237,7 +237,7 @@ export default function DashboardPage() {
                 {getCurrentPageItems().map((search) => (
                   <div
                     key={search.id}
-                    className="border border-border rounded-lg p-4 bg-card space-y-2"
+                    className="border rounded-lg p-4 bg-card space-y-2"
                   >
                     <div className="font-medium break-words">
                       {search.category}
