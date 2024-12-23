@@ -57,7 +57,7 @@ export function PaymentDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Complete Your Payment</DialogTitle>
+          <DialogTitle>Completa tu pago</DialogTitle>
         </DialogHeader>
         <div className="grid gap-6">
           <div className="flex flex-col items-center gap-4">
@@ -74,12 +74,12 @@ export function PaymentDialog({
               />
             )}
             <div className="text-center">
-              <p className="text-sm text-muted-foreground">Send exactly</p>
+              <p className="text-sm text-muted-foreground">Envía exactamente</p>
               <p className="text-xl font-bold">
                 {paymentData.amount || "0"} {paymentData.currency || ""}
               </p>
               <p className="text-sm text-muted-foreground mt-1">
-                {paymentData.credits || 0} Credits
+                {paymentData.credits || 0} Créditos
               </p>
             </div>
             <div className="flex items-center gap-2 p-3 bg-muted rounded-lg w-full">
@@ -100,13 +100,15 @@ export function PaymentDialog({
             {paymentData.invoice_commission && (
               <div className="space-y-2 text-sm w-full">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Network Fee:</span>
+                  <span className="text-muted-foreground">
+                    Comisión de la red:
+                  </span>
                   <span>
                     {paymentData.invoice_commission} {paymentData.currency}
                   </span>
                 </div>
                 <div className="flex justify-between font-medium">
-                  <span>Total Amount:</span>
+                  <span>Total:</span>
                   <span>
                     {paymentData.invoice_total_sum || paymentData.amount}{" "}
                     {paymentData.currency}
@@ -118,18 +120,16 @@ export function PaymentDialog({
 
           {paymentData.expire_utc && (
             <div className="text-center">
-              <p className="text-sm text-muted-foreground">
-                Payment expires in
-              </p>
+              <p className="text-sm text-muted-foreground">El pago expira en</p>
               <Countdown date={new Date(paymentData.expire_utc * 1000)} />
               <p className="text-sm text-muted-foreground mt-4">
-                Note: If you close this window, your transaction will still be
-                active. You can view and complete it later in your transactions
-                page.
+                Nota: Si cierras esta ventana, tu transacción continuará siendo
+                activa. Puedes ver y completarla más tarde en tu página de
+                transacciones.
               </p>
               <Link href="/user-transactions">
                 <Button variant="outline" className="mt-2">
-                  View Transactions
+                  Ver transacciones
                 </Button>
               </Link>
             </div>
